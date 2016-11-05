@@ -41,7 +41,7 @@ const timeline = (): Timeline => {
     tasks.push({time: t, task: x})
   }
 
-  const get = (a, b) => [tasks.pop()]
+  const get = (a, b) => tasks
 
   return {
     add: add,
