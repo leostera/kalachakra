@@ -15,7 +15,8 @@ type Task = {
   run(): void;
   defer(): Promise;
 }
-const task = (fn: Predicate): Task => ({
+const task = (fn) => ({
+  fn: fn,
   run: () => {
     try {
       return fn()
@@ -23,8 +24,9 @@ const task = (fn: Predicate): Task => ({
       throw e;
     }
   },
-
-  defer: () => Promise.resolve().then(this.run)
+  defer: function () {
+    Promise.resolve().then(this.run)
+  }
 })
 
 // Time-Ordered Priority Queue
@@ -70,5 +72,3 @@ const scheduler = (): Scheduler => {
 
   return { schedule, run }
 }
-
-

@@ -31,6 +31,8 @@
     "eslint-plugin-react": "^5.2.2",
     "exorcist": "^0.4.0",
     "flow-bin": "^0.25.0",
+    "jest": "^16.0.2",
+    "jsverify": "^0.7.4",
     "regenerator": "^0.8.46",
     "static-server": "^2.0.3",
     "uglify-js": "^2.6.4"
