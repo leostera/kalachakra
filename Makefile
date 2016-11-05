@@ -20,7 +20,7 @@ VERSION   = $(shell git describe --tags HEAD)
 REVISION  = $(shell git rev-parse HEAD)
 STAMP     = $(REVISION).$(shell date +%s)
 
-all: setup build lint check test bench package
+all: setup build lint check check-coverage test bench package
 
 ci: all
 
