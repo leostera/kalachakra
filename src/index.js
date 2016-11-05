@@ -36,7 +36,7 @@ const timeline = (): Timeline => {
     tasks.push({time: t, task: x})
   }
 
-  const get = (a, b) => [tasks.pop()]
+  const get = (a, b) => [(tasks.pop(): Task)]
 
   return {
     add: add,
@@ -55,6 +55,7 @@ const scheduler = (): Scheduler => {
 
   const schedule = (w, t) => {
     __timeline.add(w, t)
+    return t
   }
 
   const run = () => {
