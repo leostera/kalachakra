@@ -13,7 +13,7 @@ export type Task = {
   run(): void;
   defer(): Promise;
 }
-const task = (fn): Task => ({
+const task = (fn: Predicate): Task => ({
   fn: fn,
   run: () => {
     try       { return fn() }
@@ -24,19 +24,24 @@ const task = (fn): Task => ({
   }
 })
 
+export type ScheduledTask = {
+  task: Task;
+  time: Time;
+}
+
 // Time-Ordered Priority Queue
 export type Timeline = {
   add(time: Time, task: Task): void;
-  get(from: Time, to: Time): Task[];
+  get(from: Time, to: Time): ScheduledTask[];
 }
 const timeline = (): Timeline => {
-  const tasks = []
+  const tasks: ScheduledTask[] = []
 
   const add = (t, x) => {
     tasks.push({time: t, task: x})
   }
 
-  const get = (a, b) => [(tasks.pop(): Task)]
+  const get = (a, b) => [tasks.pop()]
 
   return {
     add: add,
@@ -63,6 +68,7 @@ const scheduler = (): Scheduler => {
     // the last run and right now
     __timeline
       .get(last_run, now())
+      .map( x => x.task )
       .map( x => x.defer() )
   }
 
