@@ -1,3 +1,6 @@
+[all]
+true
+
 [include]
 .*/src/.*
 .*/node_modules/projector/.*

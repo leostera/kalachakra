@@ -53,6 +53,9 @@
   "jest": {
     "preprocessorIgnorePatterns": [
       ".*/node_modules/(?!(scheduler)/).*/"
+    ],
+    "testPathIgnorePatterns": [
+      ".*/perf/.*"
     ]
   }
 }

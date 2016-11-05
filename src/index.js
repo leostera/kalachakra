@@ -1,5 +1,3 @@
-//@flow
-
 import {
   tick as now,
   log,
@@ -19,7 +17,7 @@ const task = (fn): Task => ({
   fn: fn,
   run: () => {
     try       { return fn() }
-    catch (e) { return e;   }
+    catch (e) { return e    }
   },
   defer: function () {
     return Promise.resolve().then(this.run)

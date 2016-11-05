@@ -8,6 +8,8 @@ DIST_DIR  =./dist
 BUILD_DIR =./lib
 BIN_DIR   =./node_modules/.bin
 SCRIPT_DIR=./scripts
+TEST_DIR  =./tests
+BENCH_DIR =./tests/perf
 
 DIR=.
 
@@ -31,6 +33,9 @@ check:
 
 check-coverage:
 	$(SCRIPT_DIR)/check-coverage.sh
+
+bench:
+	$(BENCH_DIR)/run.js
 
 test:
 	$(BIN_DIR)/jest
