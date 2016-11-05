@@ -1,13 +1,10 @@
-[all]
-true
+[options]
+all=true
 
 [include]
 .*/src/.*
-.*/node_modules/projector/.*
-
-[libs]
-.*/node_modules/.*
+.*/node_modules/scheduler/.*
 
 [ignore]
-.*/node_modules/fbjs
-.*/build/.*
+.*/node_modules/.*
+.*/lib/.*

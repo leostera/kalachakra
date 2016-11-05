@@ -1,6 +1,13 @@
 #!/bin/bash -e
 
-readonly FILES=$(find src -name "*.js" | sort)
+readonly FILES=$(
+  find src \
+    -name "*.js" \
+    -not -name "*.test.js" \
+    -not -name "*.perf.js" \
+  | sort
+)
+
 readonly FILE_COUNT=$(echo "${FILES}" | sed 's/ /\n/g' | wc -l)
 
 echo ${FILE_COUNT}

@@ -1,24 +1,26 @@
 .PHONY: all
-.PHONY: flow-stop check check-coverage test lint
-.PHONY: assets styles source build package
-.PHONY: server clean
-.PHONY: tags
+.PHONY: bench test lint build check package
+.PHONY: server clean tags
 
-DIST_DIR  =./dist
-BUILD_DIR =./lib
-BIN_DIR   =./node_modules/.bin
-SCRIPT_DIR=./scripts
-TEST_DIR  =./tests
-BENCH_DIR =./tests/perf
+LIB_NAME   = zazen.js
 
-DIR=.
+DIST_DIR   = ./dist
+BUILD_DIR  = ./lib
+BIN_DIR    = ./node_modules/.bin
+SCRIPT_DIR = ./scripts
+TEST_DIR   = ./tests
+PERF_DIR	 = ./tests/perf
 
-BRANCH ?=$(shell git rev-parse --abbrev-ref HEAD)
-VERSION =$(shell git describe --tags HEAD)
-REVISION=$(shell git rev-parse HEAD)
-STAMP   =$(REVISION).$(shell date +%s)
+PERF_TESTS = $(shell find $(PERF_DIR) -name "*.perf.js")
 
-all: setup check lint test package
+DIR = .
+
+BRANCH   ?= $(shell git rev-parse --abbrev-ref HEAD)
+VERSION   = $(shell git describe --tags HEAD)
+REVISION  = $(shell git rev-parse HEAD)
+STAMP     = $(REVISION).$(shell date +%s)
+
+all: setup build lint check test bench package
 
 ci: all
 
@@ -34,8 +36,9 @@ check:
 check-coverage:
 	$(SCRIPT_DIR)/check-coverage.sh
 
-bench:
-	$(BENCH_DIR)/run.js
+bench: $(PERF_TESTS) FORCE
+$(PERF_DIR)/%.perf.js:
+	$(NODE) $@
 
 test:
 	$(BIN_DIR)/jest
@@ -48,34 +51,20 @@ build: dirs source
 dirs:
 	mkdir -p $(BUILD_DIR) $(DIST_DIR)
 
-constants:
-	VERSION="$(VERSION)" \
-	REVISION="$(REVISION)" \
-	STAMP="$(STAMP)" \
-	NODE_ENV="$(NODE_ENV)" \
-		envsubst < src/_metadata.js > src/metadata.js
-
-source: 
+source:
 	$(BIN_DIR)/browserify \
 		src/index.js \
 		--debug \
 		-t babelify \
-		| $(BIN_DIR)/exorcist $(BUILD_DIR)/bundle.js.map \
-		> $(BUILD_DIR)/_bundle.js
-	mv $(BUILD_DIR)/_bundle.js $(BUILD_DIR)/bundle.js
+		| $(BIN_DIR)/exorcist $(BUILD_DIR)/$(LIB_NAME).map \
+		> $(BUILD_DIR)/_$(LIB_NAME)
+	mv $(BUILD_DIR)/_$(LIB_NAME) $(BUILD_DIR)/$(LIB_NAME)
 
 package: clean build
-	cp -r index.html $(BUILD_DIR) $(DIST_DIR)
-	sed -i 's build/bundle build/$(STAMP) g' $(DIST_DIR)/index.html
-	sed -i 's build/index build/$(STAMP) g'  $(DIST_DIR)/index.html
-	mv $(DIST_DIR)/$(BUILD_DIR)/index.css $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).css
-	$(BIN_DIR)/uglifyjs $(DIST_DIR)/$(BUILD_DIR)/bundle.js > $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).js
-	rm $(DIST_DIR)/$(BUILD_DIR)/bundle.js
-	gzip -c -9 $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).css > $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).css.gz
+	cp -r $(BUILD_DIR) $(DIST_DIR)
+	$(BIN_DIR)/uglifyjs $(DIST_DIR)/$(BUILD_DIR)/$(LIB_NAME) > $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).js
+	rm $(DIST_DIR)/$(BUILD_DIR)/$(LIB_NAME)
 	gzip -c -9 $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).js  > $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).js.gz
-
-server:
-	$(BIN_DIR)/static-server -n $(DIR)/index.html -f $(DIR)
 
 tags:
 	rm -f tags
@@ -86,3 +75,5 @@ clean:
 
 cleanall: clean
 	rm -rf node_modules
+
+FORCE:
