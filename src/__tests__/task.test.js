@@ -1,14 +1,27 @@
+import {
+  check as verify,
+  forall,
+  nat,
+} from 'jsverify'
+
+import { log } from 'scheduler/utils'
+
 import { task } from 'scheduler'
 
-test('run executes the predicate', () => {
-  let t = task( () => 3 ).run()
-  expect(t).toBe(3)
-})
+const check = (name, predicate) => {
+  test(name, () => {
+    let r = verify( predicate )
+    expect(r).toBe(true)
+  })
+}
 
-test('run catches error from the predicate', () => {
-  let t = task( () => { throw 3 } ).run()
-  expect(t).toBe(3)
-})
+check('run executes the predicate',
+  forall('json -> json', 'json', nat(100),
+    (f, x, t) => task( () => f(x) ).run() == f(x) ))
+
+check('run catches error from the predicate',
+  forall('json -> json', 'json', nat(100),
+    (f, x, t) => task( () => { throw f(x) } ).run() == f(x) ))
 
 test('defer executes the predicate', async () => {
   let t = await task( () => 3).defer()
