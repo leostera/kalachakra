@@ -1,5 +1,14 @@
+
 // https://www.w3.org/TR/hr-time/#monotonic-clock
-const tick = (): number => window.performance.now()|0
+const tick = (): number => {
+  let t = -1
+  if (window.performance && window.performance.now) {
+    t = window.performance.now()
+  } else if (process && process.hrtime) {
+    t = [process.hrtime()].reduce( (a,b) => b[0]*1e9+b[1], 0)
+  }
+  return Math.floor(t)
+}
 
 const _now_time = (): string => (new Date()).toTimeString().split(' ')[0]
 const now = (): string => `${_now_time()}:${tick()}`
