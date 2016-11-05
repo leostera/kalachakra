@@ -1,10 +1,8 @@
-//@flow
-
 // https://www.w3.org/TR/hr-time/#monotonic-clock
-const tick = () => window.performance.now()|0
+const tick = (): number => window.performance.now()|0
 
-const _now_time = () => (new Date()).toTimeString().split(' ')[0]
-const now  = () => `${_now_time()}:${tick()}`
+const _now_time = (): string => (new Date()).toTimeString().split(' ')[0]
+const now = (): string => `${_now_time()}:${tick()}`
 
 const log = (...args: any[]): void => {
   // @todo: use ${NODE_ENV} here instead
@@ -22,7 +20,6 @@ const atom = (...args: Array<string>): Symbol | Symbol[] => {
   let keys: Symbol[] = args.map(Symbol.for)
   return keys.length === 1 ? keys[0] : keys
 }
-window.atom = atom
 
 export {
   atom,
