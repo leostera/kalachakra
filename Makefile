@@ -20,9 +20,9 @@ VERSION   = $(shell git describe --tags HEAD)
 REVISION  = $(shell git rev-parse HEAD)
 STAMP     = $(REVISION).$(shell date +%s)
 
-all: setup build lint check check-coverage test bench package
+all: build lint check check-coverage test bench
 
-ci: all
+ci: setup all package
 
 setup:
 	$(SCRIPT_DIR)/symlink.sh

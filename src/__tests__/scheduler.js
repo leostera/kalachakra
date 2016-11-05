@@ -7,4 +7,5 @@ test('adds tasks', () => {
   let t = task( () => 3 )
   let s = scheduler()
   s.schedule(1, t)
+  s.run()
 })
