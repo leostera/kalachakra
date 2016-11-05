@@ -20,4 +20,4 @@ for file in ${FILES}; do
 done
 
 readonly TOTAL="$( echo "${TOTAL_PERCENTAGE}/${FILE_COUNT}.0" | bc)"
-echo "Total: ${TOTAL}%"
+echo "== Coverage: ${TOTAL}%"
