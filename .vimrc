@@ -1,15 +1,6 @@
-function! BuildJS()
-  call VimuxRunCommand("time make build")
+function! Make(targets)
+  call VimuxRunCommand("time make -j`nproc` ".a:targets)
 endfunction
 
-function! BuildCSS()
-  call VimuxRunCommand("time make styles")
-endfunction
-
-function! BuildCTags()
-  call VimuxRunCommand("time make tags")
-endfunction
-
-autocmd! BufWritePost *.js   :call BuildJS()
-autocmd! BufWritePost *.sass :call BuildCSS()
-autocmd! BufWritePost .ctags* :call BuildCTags()
+autocmd! BufWritePost *.js     :call Make("build test")
+autocmd! BufWritePost .ctags*  :call Make("tags")

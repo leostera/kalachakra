@@ -6,31 +6,28 @@ import {
   atom,
 } from 'scheduler/utils'
 
-type Time = number
+export type Time = number
 
-type Predicate = Function
+export type Predicate = Function
 
 // Wrapper around a function
-type Task = {
+export type Task = {
   run(): void;
   defer(): Promise;
 }
-const task = (fn) => ({
+const task = (fn): Task => ({
   fn: fn,
   run: () => {
-    try {
-      return fn()
-    } catch (e) {
-      throw e;
-    }
+    try       { return fn() }
+    catch (e) { return e;   }
   },
   defer: function () {
-    Promise.resolve().then(this.run)
+    return Promise.resolve().then(this.run)
   }
 })
 
 // Time-Ordered Priority Queue
-type Timeline = {
+export type Timeline = {
   add(time: Time, task: Task): void;
   get(from: Time, to: Time): Task[];
 }
@@ -50,7 +47,7 @@ const timeline = (): Timeline => {
 }
 
 // Self-referencing Timeline consumer
-type Scheduler = {
+export type Scheduler = {
   schedule(when: Time, task: Task): Task;
   run(): void;
 }
@@ -71,4 +68,10 @@ const scheduler = (): Scheduler => {
   }
 
   return { schedule, run }
+}
+
+export {
+  task,
+  timeline,
+  scheduler,
 }
