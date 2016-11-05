@@ -20,9 +20,7 @@ VERSION   = $(shell git describe --tags HEAD)
 REVISION  = $(shell git rev-parse HEAD)
 STAMP     = $(REVISION).$(shell date +%s)
 
-all: build lint check check-coverage test bench
-
-ci: setup all package
+all: build lint check test bench
 
 setup:
 	$(SCRIPT_DIR)/symlink.sh
@@ -32,8 +30,6 @@ flow-stop:
 
 check:
 	$(BIN_DIR)/flow
-
-check-coverage:
 	$(SCRIPT_DIR)/check-coverage.sh
 
 bench: $(PERF_TESTS) FORCE
