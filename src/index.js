@@ -56,7 +56,6 @@ const timeline = (): Timeline => {
   // that slice
   const get = (a, b) => {
     let t = tasks.splice(0,1)
-    log.ns("Timeline#get",t[0].time)
     return t
   }
 
@@ -89,11 +88,24 @@ const scheduler = (): Scheduler => {
   const __timeline = timeline()
   let clock
   let last_run = -1
+  let last_arrival = -1
+  let reductions = 0
 
   let p = log.ns("Scheduler =>")
 
+  let perf_t0, perf_t1
+
+  const start = () => {
+    perf_t0 = perf_t0 || now()
+  }
+
+  const end = () => {
+    perf_t1 = now()
+    p(`Took: ${perf_t1-perf_t0}ns`)
+  }
+
   const schedule = (w, t) => {
-    p(`Scheduling ${t} to run on ${w}`)
+    start()
     let next_run = w || now()
     __timeline.add(next_run, t)
     reschedule(run(last_run, next_run), last_run-next_run)
@@ -103,24 +115,33 @@ const scheduler = (): Scheduler => {
 
   const reschedule = (fn, when) => {
     let delay = Math.max(0, when)
-    p(`Rescheduling run in ${delay}`)
-    clock = timer(fn, delay)
+    if( __timeline.empty() ) {
+      p(`Not rescheduling on ${reductions} reductions`)
+      return
+    } else {
+      p(`Rescheduling in ${delay} on ${reductions} reductions`)
+      clock = timer(fn, delay)
+    }
   }
 
   const unschedule = () => {
+    p(`Cancelling on ${reductions} reductions`)
     clock && clock.clear && clock.clear()
     clock = null
   }
 
   const run = (from: Time, to: Time) => () => {
     Promise.resolve().then( () => {
-      p("Should I Run?", !__timeline.empty())
-      if( __timeline.empty() ) return
-
+      if( __timeline.empty() ) {
+        p(`Exiting after ${reductions} reductions`)
+        end()
+        return
+      }
       // Execute all the tasks that should run in this run
       __timeline
         .get(from, to)
         .map( x => x.defer() )
+      reductions += 1
 
       let next_arrival  = __timeline.next()
       if( next_arrival < last_arrival)
@@ -142,14 +163,17 @@ export {
   scheduler,
 }
 
-window.now = now
-window.scheduler = scheduler
-window.timeline = timeline
-window.task = task
 
-window.s0 = scheduler()
-window.t0 = (new Array(1000)).fill(1)
-              .map( x => Math.random() )
-              .map( n => () => log(n) )
-              .map( f => task(f) )
-              .map( t => s0.schedule( null, t ) )
+if(window) {
+  window.now = now
+  window.scheduler = scheduler
+  window.timeline = timeline
+  window.task = task
+
+  window.s0 = scheduler()
+  window.t0 = (new Array(10)).fill(1)
+                .map( x => Math.random() )
+                .map( n => () => n )
+                .map( f => task(f) )
+                .map( t => window.s0.schedule( null, t ) )
+}
