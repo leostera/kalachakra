@@ -55,7 +55,7 @@ const timeline = (): Timeline => {
   // that is bigger than b, then we break the loop, and return
   // that slice
   const get = (a, b) => {
-    let t = tasks.slice(0,1)
+    let t = tasks.splice(0,1)
     log.ns("Timeline#get",t[0].time)
     return t
   }
@@ -142,6 +142,6 @@ export {
   scheduler,
 }
 
-let s0 = scheduler()
+window.scheduler = scheduler
+window.timeline = timeline
 window.task = task
-window.s0 = s0
