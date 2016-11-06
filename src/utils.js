@@ -7,7 +7,7 @@ const tick = (): number => {
   } else if (process && process.hrtime) {
     t = [process.hrtime()].reduce( (a,b) => b[0]*1e9+b[1], 0)
   }
-  return Math.floor(t)
+  return t|0
 }
 
 const _now_time = (): string => (new Date()).toTimeString().split(' ')[0]
