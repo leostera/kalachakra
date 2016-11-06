@@ -1,9 +1,11 @@
 import { task, timeline } from 'scheduler'
 
-test('adds tasks', () => {
-  let t = task( () => 3 )
+test('get returns the right tasks', () => {
+  let add = (n, tl) => tl.add(n, task( () => n ))
   let tl = timeline()
-  tl.add(1, t)
-  let tasks = tl.get(-1,2)
+  add(1, tl)
+  add(2, tl)
+  add(3, tl)
+  let tasks = tl.get(1)
   expect(tasks.length).toBe(1)
 })
