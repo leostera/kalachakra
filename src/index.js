@@ -12,8 +12,12 @@ export type Predicate = Function
 export type Task = {
   run(): void;
   defer(): Promise;
+  delay(offset: Time): Task;
+  time: Time;
+  fn: Predicate;
 }
 const task = (fn: Predicate): Task => ({
+  time: 0,
   fn: fn,
   run: () => {
     try       { return fn() }
@@ -21,58 +25,85 @@ const task = (fn: Predicate): Task => ({
   },
   defer: function () {
     return Promise.resolve().then(this.run)
-  }
+  },
+  delay: function (t) {
+    this.time += t
+    return this
+  },
 })
 
-export type ScheduledTask = {
-  task: Task;
-  time: Time;
-}
-
 // Time-Ordered Priority Queue
+// this is really just a list of Tasks sorted by their .time
 export type Timeline = {
   add(time: Time, task: Task): void;
-  get(from: Time, to: Time): ScheduledTask[];
+  get(from: Time, to: Time): Task[];
+  empty(): boolean;
+  next(): Time;
 }
 const timeline = (): Timeline => {
-  const tasks: ScheduledTask[] = []
+  const tasks: Task[] = []
 
-  const add = (t, x) => {
-    tasks.push({time: t, task: x})
-  }
-
-  const get = (a, b) => tasks
+  const add = (t, x) => { tasks.push(x.delay(t)) }
+  const get = (a, b) => [tasks.shift()]
+  const empty = () => tasks.length === 0
+  const next = () => empty() ? Infinity : tasks[0].time
 
   return {
     add: add,
-    get: get
+    get: get,
+    empty: empty,
+    next: next,
+  }
+}
+
+export type Timer = {
+  clear(): void;
+}
+const timer = (fn: Predicate, t: Time): Timer => {
+  let id = setTimeout(fn, t)
+  return {
+    clear: () => clearTimeout(id)
   }
 }
 
 // Self-referencing Timeline consumer
 export type Scheduler = {
   schedule(when: Time, task: Task): Task;
-  run(): void;
 }
 const scheduler = (): Scheduler => {
   const __timeline = timeline()
+  let __clock
   let last_run = -1
 
   const schedule = (w, t) => {
-    __timeline.add(w, t)
+    let next_run = now()
+    __timeline.add(next_run, t)
+    reschedule(run(last_run, next_run), last_run-next_run)
+    last_run = next_run
     return t
   }
 
-  const run = () => {
-    // Get all the tasks in the timeline between
-    // the last run and right now
-    __timeline
-      .get(last_run, now())
-      .map( x => x.task )
-      .map( x => x.defer() )
+  const reschedule = (fn, when) => {
+    let delay = Math.max(0, when)
+    __clock = setTimeout(fn, delay)
   }
 
-  return { schedule, run }
+  const run = (from: Time, to: Time) => () => {
+    Promise.resolve().then( () => {
+      log("Should I Run?", !__timeline.empty())
+      if( __timeline.empty() ) return
+
+      __timeline
+        .get(from, to)
+        .map( x => x.defer() )
+
+      let next  = __timeline.next()
+      let delay = next-to
+      reschedule(run(to, next), delay)
+    } )
+  }
+
+  return { schedule }
 }
 
 export {
