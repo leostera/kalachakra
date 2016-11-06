@@ -41,12 +41,14 @@ export type Timeline = {
   next(): Time;
 }
 const timeline = (): Timeline => {
-  const tasks: Task[] = []
+  let tasks: Task[] = []
+
+  const byTime = (a,b) => a.time - b.time
 
   // @todo: start with a simple sortBy("time")
   const add = (t, x) => {
     tasks.push(x.delay(t))
-    tasks.forEach(log.ns("Timeline Item"))
+    tasks = tasks.sort(byTime)
   }
 
   // @todo: since this is sorted, [0] will be the most urgent
@@ -104,7 +106,7 @@ const scheduler = (): Scheduler => {
   }
 
   const unschedule = () => {
-    __clock.clear()
+    __clock && __clock.clear && __clock.clear()
     __clock = null
   }
 
@@ -113,6 +115,7 @@ const scheduler = (): Scheduler => {
       log("Should I Run?", !__timeline.empty())
       if( __timeline.empty() ) return
 
+      // Execute all the tasks that should run in this run
       __timeline
         .get(from, to)
         .map( x => x.defer() )
