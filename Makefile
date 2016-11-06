@@ -62,9 +62,12 @@ package: clean build
 	rm $(DIST_DIR)/$(BUILD_DIR)/$(LIB_NAME)
 	gzip -c -9 $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).js  > $(DIST_DIR)/$(BUILD_DIR)/$(STAMP).js.gz
 
-tags:
+tags: .ctagsignore
 	rm -f tags
-	ctags .
+	ctags src
+
+.ctagsignore: node_modules
+	ls -fd1 node_modules/* > $@
 
 clean:
 	rm -rf $(BUILD_DIR) $(DIST_DIR) tags

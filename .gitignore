@@ -8,3 +8,4 @@ TODO
 .travis_build
 .bin
 tags*
+.ctagsignore
