@@ -43,9 +43,8 @@ export type Timeline = {
 const timeline = (): Timeline => {
   let tasks: Task[] = []
 
-  const byTime = (a,b) => a.time - b.time
+  const byTime = (a,b) => b.time + a.time
 
-  // @todo: start with a simple sortBy("time")
   const add = (t, x) => {
     tasks.push(x.delay(t))
     tasks = tasks.sort(byTime)
@@ -56,8 +55,8 @@ const timeline = (): Timeline => {
   // that is bigger than b, then we break the loop, and return
   // that slice
   const get = (a, b) => {
-    let t = [tasks.shift()]
-    log(t[0].time)
+    let t = tasks.slice(0,1)
+    log.ns("Timeline#get",t[0].time)
     return t
   }
 
