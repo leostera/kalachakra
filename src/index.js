@@ -43,10 +43,24 @@ export type Timeline = {
 const timeline = (): Timeline => {
   const tasks: Task[] = []
 
-  const add = (t, x) => { tasks.push(x.delay(t)) }
-  const get = (a, b) => [tasks.shift()]
+  // @todo: start with a simple sortBy("time")
+  const add = (t, x) => {
+    tasks.push(x.delay(t))
+    tasks.forEach(log.ns("Timeline Item"))
+  }
+
+  // @todo: since this is sorted, [0] will be the most urgent
+  // element, so we just need to iterate until we find a `.time`
+  // that is bigger than b, then we break the loop, and return
+  // that slice
+  const get = (a, b) => {
+    let t = [tasks.shift()]
+    log(t[0].time)
+    return t
+  }
+
   const empty = () => tasks.length === 0
-  const next = () => empty() ? Infinity : tasks[0].time
+  const next  = () => empty() ? Infinity : tasks[0].time
 
   return {
     add: add,
@@ -85,7 +99,13 @@ const scheduler = (): Scheduler => {
 
   const reschedule = (fn, when) => {
     let delay = Math.max(0, when)
-    __clock = setTimeout(fn, delay)
+    log(`Setting timeout to run in ${delay}ms`)
+    __clock = timer(fn, delay)
+  }
+
+  const unschedule = () => {
+    __clock.clear()
+    __clock = null
   }
 
   const run = (from: Time, to: Time) => () => {
@@ -96,6 +116,14 @@ const scheduler = (): Scheduler => {
       __timeline
         .get(from, to)
         .map( x => x.defer() )
+
+      // @todo: unschedule currently rescheduled run
+      // if the last next arrival  _earlier_ than
+      // the last rescheduled run
+      //
+      // if (next < last_next) unschedule()
+      //
+      // then reschedule as usual
 
       let next  = __timeline.next()
       let delay = next-to
@@ -111,3 +139,7 @@ export {
   timeline,
   scheduler,
 }
+
+let s0 = scheduler()
+window.task = task
+window.s0 = s0
