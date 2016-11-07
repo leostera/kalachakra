@@ -1,13 +1,13 @@
 {
-  "name": "scheduler",
+  "name": "kalachakra",
   "description": "An experiment to understand Scheduling algorithms for the Browser",
   "author": "Leandro Ostera <leandro@ostera.io>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ostera/scheduler.git"
+    "url": "git+https://github.com/ostera/kalachakra.git"
   },
   "bugs": {
-    "url": "https://github.com/ostera/scheduler/issues"
+    "url": "https://github.com/ostera/kalachakra/issues"
   },
   "license": "MIT",
   "version": "0.0.1",
@@ -48,11 +48,11 @@
     ]
   },
   "keywords": [
-    "scheduler"
+    "kalachakra"
   ],
   "jest": {
     "preprocessorIgnorePatterns": [
-      ".*/node_modules/(?!(scheduler)/).*/"
+      ".*/node_modules/(?!(kalachakra)/).*/"
     ],
     "testPathIgnorePatterns": [
       ".*/perf/.*"

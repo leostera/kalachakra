@@ -1,4 +1,4 @@
-import type { Time, Predicate } from 'scheduler'
+import type { Time, Predicate } from 'kalachakra'
 
 export type Timer = {
   clear(): void;

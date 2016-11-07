@@ -1,4 +1,4 @@
-import { task, timeline } from 'scheduler'
+import { task, timeline } from 'kalachakra'
 
 test('get returns the right tasks', () => {
   let add = (n, tl) => tl.add(n, task( () => n ))

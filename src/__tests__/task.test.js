@@ -4,9 +4,9 @@ import {
   nat,
 } from 'jsverify'
 
-import { log } from 'scheduler/utils'
+import { log } from 'kalachakra/utils'
 
-import { task } from 'scheduler'
+import { task } from 'kalachakra'
 
 const check = (name, predicate) => {
   test(name, () => {

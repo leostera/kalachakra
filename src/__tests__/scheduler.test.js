@@ -1,12 +1,12 @@
 import {
   tick as now,
   log,
-} from 'scheduler/utils'
+} from 'kalachakra/utils'
 
 import {
   task,
-  scheduler
-} from 'scheduler'
+  kalachakra
+} from 'kalachakra'
 
 test('adds tasks', async () => {
   let t = (x) => task( () => log("What! I'm ALIVE", x) )
@@ -14,7 +14,7 @@ test('adds tasks', async () => {
   t1.what = "I should go last, even though I'm scheduled first"
   let t2 = t(2)
   t2.what = "I should go first, even though I'm scheduled last"
-  let s = scheduler()
+  let s = kalachakra()
   s.schedule(now()+12341234, t1)
   s.schedule(now(), t2)
 })

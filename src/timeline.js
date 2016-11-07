@@ -1,9 +1,9 @@
 import {
   log
-} from 'scheduler/utils'
+} from 'kalachakra/utils'
 
-import type { Time, Predicate } from 'scheduler'
-import type { Task } from 'scheduler/task'
+import type { Time, Predicate } from 'kalachakra'
+import type { Task } from 'kalachakra/task'
 
 // Time-Ordered Priority Queue
 // this is really just a list of Tasks sorted by their .time

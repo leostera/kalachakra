@@ -1,18 +1,18 @@
-import type { Time, Predicate } from 'scheduler'
-import type { Task } from 'scheduler/task'
+import type { Time, Predicate } from 'kalachakra'
+import type { Task } from 'kalachakra/task'
 
 import {
   tick as now
-} from 'scheduler/utils'
+} from 'kalachakra/utils'
 
-import { timer }    from 'scheduler/timer'
-import { timeline } from 'scheduler/timeline'
+import { timer }    from 'kalachakra/timer'
+import { timeline } from 'kalachakra/timeline'
 
 // Self-referencing Timeline consumer
 export type Scheduler = {
   schedule(when: Time, task: Task): Task;
 }
-const scheduler = (): Scheduler => {
+const kalachakra = (): Scheduler => {
   const __timeline = timeline()
 
   let clock
@@ -53,4 +53,4 @@ const scheduler = (): Scheduler => {
   return { schedule }
 }
 
-export { scheduler }
+export { kalachakra }
