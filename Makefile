@@ -2,7 +2,7 @@
 .PHONY: bench test lint build check package
 .PHONY: server clean tags
 
-LIB_NAME   = zazen.js
+LIB_NAME   = kalachakra.js
 
 DIST_DIR   = ./dist
 BUILD_DIR  = ./lib

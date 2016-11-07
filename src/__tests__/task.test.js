@@ -15,6 +15,13 @@ const check = (name, predicate) => {
   })
 }
 
+const check_async = (name, predicate) => {
+  test(name, async () => {
+    let r = await verify( predicate )
+    expect(r).toBe(true)
+  })
+}
+
 check('run executes the predicate',
   forall('json -> json', 'json', nat(100),
     (f, x, t) => task( () => f(x) ).run() == f(x) ))
@@ -23,12 +30,16 @@ check('run catches error from the predicate',
   forall('json -> json', 'json', nat(100),
     (f, x, t) => task( () => { throw f(x) } ).run() == f(x) ))
 
-test('defer executes the predicate', async () => {
-  let t = await task( () => 3).defer()
-  expect(t).toBe(3)
-})
+check_async('defer executes the predicate',
+  forall('json -> json', 'json', nat(100),
+    (f, x, t) => {
+      return task( () => f(x) )
+        .defer()
+        .then( y => y==f(x) )}))
 
-test('defer catches error from the predicate', async () => {
-  let t = await task( () => { throw 3 } ).defer()
-  expect(t).toBe(3)
-})
+check_async('defer catches error from the predicate',
+  forall('json -> json', 'json', nat(100),
+    (f, x, t) => {
+      return task( () => { throw f(x) } )
+        .defer()
+        .then( y => y==f(x) )}))
