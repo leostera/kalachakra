@@ -34,7 +34,7 @@ const timeline = (): Timeline => {
   }
 
   const empty = () => tasks.length === 0
-  const next  = () => (empty() ? 0 : tasks[0].time)
+  const next  = () => empty() ? Infinity : tasks[0].time
 
   return {
     add: add,
