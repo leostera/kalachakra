@@ -1,6 +1,6 @@
 {
   "name": "scheduler",
-  "description": "A Javascript Scheduler for the Browser",
+  "description": "An experiment to understand Scheduling algorithms for the Browser",
   "author": "Leandro Ostera <leandro@ostera.io>",
   "repository": {
     "type": "git",
