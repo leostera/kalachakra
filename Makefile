@@ -4,12 +4,14 @@
 
 LIB_NAME   = kalachakra.js
 
-DIST_DIR   = ./dist
-BUILD_DIR  = ./lib
-BIN_DIR    = ./node_modules/.bin
-SCRIPT_DIR = ./scripts
-TEST_DIR   = ./tests
-PERF_DIR	 = ./tests/perf
+NODE = $(shell which node)
+
+DIST_DIR   = dist
+BUILD_DIR  = lib
+BIN_DIR    = node_modules/.bin
+SCRIPT_DIR = scripts
+TEST_DIR   = tests
+PERF_DIR   = tests/perf
 
 PERF_TESTS = $(shell find $(PERF_DIR) -name "*.perf.js")
 
@@ -23,17 +25,17 @@ STAMP     = $(REVISION).$(shell date +%s)
 all: build lint check test bench
 
 setup:
-	$(SCRIPT_DIR)/symlink.sh
+	@$(SCRIPT_DIR)/symlink.sh
 
 flow-stop:
 	$(BIN_DIR)/flow stop
 
 check:
-	$(BIN_DIR)/flow
-	$(SCRIPT_DIR)/check-coverage.sh
+	@$(BIN_DIR)/flow
+	@$(SCRIPT_DIR)/check-coverage.sh
 
-bench: $(PERF_TESTS) FORCE
-$(PERF_DIR)/%.perf.js:
+bench: $(PERF_TESTS)
+$(PERF_TESTS): FORCE
 	$(NODE) $@
 
 test:

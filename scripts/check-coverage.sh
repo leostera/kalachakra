@@ -10,7 +10,7 @@ readonly FILES=$(
 
 readonly FILE_COUNT=$(echo "${FILES}" | sed 's/ /\n/g' | wc -l)
 
-echo ${FILE_COUNT}
+echo "== Checking ${FILE_COUNT} file(s)"
 TOTAL_PERCENTAGE=0.0
 OUTPUT=""
 for file in ${FILES}; do
