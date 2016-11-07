@@ -5,7 +5,7 @@ import {
 
 import {
   task,
-  kalachakra
+  scheduler
 } from 'kalachakra'
 
 test('adds tasks', async () => {
@@ -14,7 +14,7 @@ test('adds tasks', async () => {
   t1.what = "I should go last, even though I'm scheduled first"
   let t2 = t(2)
   t2.what = "I should go first, even though I'm scheduled last"
-  let s = kalachakra()
+  let s = scheduler()
   s.schedule(now()+12341234, t1)
   s.schedule(now(), t2)
 })

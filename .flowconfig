@@ -3,7 +3,7 @@ all=true
 
 [include]
 .*/src/.*
-.*/node_modules/scheduler/.*
+.*/node_modules/kalachakra/.*
 
 [ignore]
 .*/__tests__/.*

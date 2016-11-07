@@ -12,7 +12,7 @@ import { timeline } from 'kalachakra/timeline'
 export type Scheduler = {
   schedule(when: Time, task: Task): Task;
 }
-const kalachakra = (): Scheduler => {
+const scheduler = (): Scheduler => {
   const __timeline = timeline()
 
   let clock
@@ -53,4 +53,4 @@ const kalachakra = (): Scheduler => {
   return { schedule }
 }
 
-export { kalachakra }
+export { scheduler }
