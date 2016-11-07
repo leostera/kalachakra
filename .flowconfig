@@ -9,3 +9,4 @@ all=true
 .*/__tests__/.*
 .*/node_modules/.*
 .*/lib/.*
+.*/coverage/.*
