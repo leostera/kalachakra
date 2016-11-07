@@ -8,16 +8,20 @@ import { log } from 'kalachakra/utils'
 
 import { task } from 'kalachakra'
 
+const options = {
+  tests: 1000
+}
+
 const check = (name, predicate) => {
   test(name, () => {
-    let r = verify( predicate )
+    let r = verify( predicate, options )
     expect(r).toBe(true)
   })
 }
 
 const check_async = (name, predicate) => {
   test(name, async () => {
-    let r = await verify( predicate )
+    let r = await verify( predicate, options )
     expect(r).toBe(true)
   })
 }
