@@ -1,6 +1,11 @@
-export type Time = number
-export type Predicate = Function
+export {
+  scheduler,
+} from './scheduler'
 
-export { scheduler } from 'kalachakra/scheduler'
-export { task      } from 'kalachakra/task'
-export { timeline  } from 'kalachakra/timeline'
+export {
+  task,
+} from './task'
+
+export {
+  timeline,
+} from './timeline'

@@ -2,20 +2,22 @@ import {
   log
 } from 'kalachakra/utils'
 
-import type { Time, Predicate } from 'kalachakra'
-import type { Task } from 'kalachakra/task'
+import type {
+  Task,
+  Time,
+} from 'kalachakra/task'
 
 // Time-Ordered Priority Queue
 // this is really just a list of Tasks sorted by their .time
 
 export type Timeline = {
-  add(time: Time, task: Task): void;
-  get(until: Time): Task[];
+  add(time: Time, task: Task<*>): void;
+  get(until: Time): Task<*>[];
   empty(): boolean;
   next(): Time;
 }
 const timeline = (): Timeline => {
-  let tasks: Task[] = []
+  let tasks: Task<*>[] = []
 
   const byTime = (a,b) => a.time - b.time
 
@@ -44,4 +46,6 @@ const timeline = (): Timeline => {
   }
 }
 
-export { timeline }
+export {
+  timeline,
+}

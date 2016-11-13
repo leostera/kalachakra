@@ -1,16 +1,15 @@
-import type { Time, Predicate } from 'kalachakra'
+export type Time = number
 
 // Wrapper around a function
-
-export type Task = {
+export type Task<T> = {
   run(): void;
-  defer(): Promise;
-  delay(offset: Time): Task;
+  defer(): Promise<T>;
+  delay(offset: Time): Task<T>;
   time: Time;
-  fn: Predicate;
+  fn: Function;
 }
 
-const task = (fn: Predicate): Task => ({
+const task = (fn: Function): Task<mixed> => ({
   time: 0,
   fn: fn,
   run: () => {
@@ -26,4 +25,6 @@ const task = (fn: Predicate): Task => ({
   },
 })
 
-export { task }
+export {
+  task
+}
