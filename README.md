@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/ostera/kalachakra.js/master/assets/kalachakra-600.png" align="right" height="100" />
 
-> 🙏 sit, breathe, stream.
+> ⌛️scheduling for the browser
 
 [![Travis-CI](https://api.travis-ci.org/ostera/kalachakra.js.svg)](https://travis-ci.org/ostera/kalachakra.js)
 [![Codecov branch](https://img.shields.io/codecov/c/github/ostera/kalachakra.js/master.svg)](https://codecov.io/gh/ostera/kalachakra.js)
