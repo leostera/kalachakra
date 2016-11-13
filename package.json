@@ -12,9 +12,10 @@
   "license": "MIT",
   "version": "0.0.1",
   "main": "src/index.js",
-  "dependencies": {
-    "babel-eslint": "^6.1.0",
-    "babel-jest": "^16.0.0",
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-eslint": "7.1.0",
+    "babel-jest": "17.0.0",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-plugin-transform-flow-strip-types": "^6.8.0",
     "babel-plugin-transform-function-bind": "^6.8.0",
@@ -29,14 +30,15 @@
     "babel-preset-stage-3": "^6.5.0",
     "babel-runtime": "^6.9.2",
     "babelify": "^7.3.0",
-    "benchmark": "^2.1.2",
     "browserify": "^13.0.1",
+    "browserify-incremental": "^3.1.1",
+    "codecov": "^1.0.1",
     "eslint": "^3.0.0",
-    "eslint-plugin-react": "^5.2.2",
+    "eslint-plugin-react": "6.6.0",
     "exorcist": "^0.4.0",
-    "flow-bin": "^0.25.0",
-    "jest": "^16.0.2",
-    "jest-cli": "^16.0.2",
+    "flow-bin": "^0.35.0",
+    "jest": "^17.0.0",
+    "jest-cli": "^17.0.0",
     "jsverify": "^0.7.4",
     "regenerator": "^0.8.46",
     "static-server": "^2.0.3",
@@ -50,13 +52,5 @@
   },
   "keywords": [
     "kalachakra"
-  ],
-  "jest": {
-    "preprocessorIgnorePatterns": [
-      ".*/node_modules/(?!(kalachakra)/).*/"
-    ],
-    "testPathIgnorePatterns": [
-      ".*/perf/.*"
-    ]
-  }
+  ]
 }

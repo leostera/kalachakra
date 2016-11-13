@@ -2,11 +2,11 @@
 all=true
 
 [include]
-.*/src/.*
 .*/node_modules/kalachakra/.*
+.*/src/.*
 
 [ignore]
+.*/coverage/.*
 .*/__tests__/.*
 .*/node_modules/.*
 .*/lib/.*
-.*/coverage/.*
