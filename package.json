@@ -10,7 +10,7 @@
     "url": "https://github.com/ostera/kalachakra/issues"
   },
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "src/index.js",
   "devDependencies": {
     "babel-core": "^6.18.2",
