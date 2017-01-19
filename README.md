@@ -1,13 +1,13 @@
 # kalachakra
 
-<img src="https://raw.githubusercontent.com/ostera/kalachakra.js/master/assets/kalachakra-600.png" align="right" height="100" />
+<img src="https://raw.githubusercontent.com/ostera/kalachakra/master/assets/kalachakra-600.png" align="right" height="100" />
 
 > ⌛️scheduling for the browser
 
-[![Travis-CI](https://api.travis-ci.org/ostera/kalachakra.js.svg)](https://travis-ci.org/ostera/kalachakra.js)
-[![Codecov branch](https://img.shields.io/codecov/c/github/ostera/kalachakra.js/master.svg)](https://codecov.io/gh/ostera/kalachakra.js)
-[![Zero Deps](https://david-dm.org/ostera/kalachakra.js.svg)](https://david-dm.org/ostera/kalachakra.js)
-[![Dev Deps](https://david-dm.org/ostera/kalachakra.js/dev-status.svg)](https://david-dm.org/ostera/kalachakra.js#info=devDependencies)
+[![Travis-CI](https://api.travis-ci.org/ostera/kalachakra.svg)](https://travis-ci.org/ostera/kalachakra)
+[![Codecov branch](https://img.shields.io/codecov/c/github/ostera/kalachakra/master.svg)](https://codecov.io/gh/ostera/kalachakra)
+[![Zero Deps](https://david-dm.org/ostera/kalachakra.svg)](https://david-dm.org/ostera/kalachakra)
+[![Dev Deps](https://david-dm.org/ostera/kalachakra/dev-status.svg)](https://david-dm.org/ostera/kalachakra#info=devDependencies)
 
 ## Contributing
 
